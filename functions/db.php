@@ -51,6 +51,14 @@ function confirm($result){
 ?>
 
 <?php
+function row_count($result){
 
+    return mysqli_num_rows($result);
+}
+?>
+
+<?php
+?>
+<?php
 ?>
 
