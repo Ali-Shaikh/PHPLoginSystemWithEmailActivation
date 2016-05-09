@@ -11,6 +11,7 @@ $con = mysqli_connect('localhost', 'login1', 'login1', 'login_db_1');
 function escape($string)
 {
     global $con;
+
     return mysqli_real_escape_string($con, $string);
 }
 
@@ -37,6 +38,15 @@ function fetch_array($result)
 ?>
 
 <?php
+
+function confirm($result){
+    global $con;
+
+    if (!$result)
+
+        die("Query Failed" .  mysqli_error($con));
+
+}
 
 ?>
 
