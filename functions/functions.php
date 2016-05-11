@@ -57,6 +57,23 @@ function token_generator()
 }
 
 ?>
+
+<?php
+
+function validation_errors($error_message)
+{
+    $errors = "<div class='alert alert-danger alert-dismissible' role='alert'>";
+    $errors .= "<button type='button' class='close' data-dismiss='alert'>";
+    $errors .= "<span aria-hidden='true'>&times;</span>";
+    $errors .= "<span class='sr-only'></span>";
+    $errors .= "</button>";
+    //$errors .= "<span class='glyphicon glyphicon-remove-circle'></span>";
+    $errors .= " <strong> Warning! </strong>";
+    $errors .= "$error_message";
+    $errors .= "</div>";
+    return $errors;
+}
+?>
 <?php
 /*******************************Validation Functions***************************/
 ?>
@@ -121,75 +138,18 @@ function validate_user_registration()
             $errors[] = "Your Username cannot be greater than {$max} characters";
         }
 
+        if($password !== $confirm_password) {
+
+            $errors[] = "Your password fields do not match";
+
+        }
+
         if (!empty($errors)) {
             foreach ($errors as $error) {
-                echo '
-                    <div class="alert alert-warning alert-dismissible" role="alert">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <strong>Warning!</strong> '.$error.' </div> ';
+
+                echo validation_errors($error);
             }
         }
-    }
-}
-
-?>
-
-<?php
-?>
-
-<?php
-function message()
-{
-    if (isset($_SESSION["message"])) {
-        $output = "<div class='alert alert-info alert-dismissible' role='alert'>";
-        $output .= "<button type='button' class='close' data-dismiss='alert'>";
-        $output .= "<span aria-hidden='true'>&times;</span>";
-        $output .= "<span class='sr-only'></span>";
-        $output .= "</button>";
-        $output .= "<span class='glyphicon glyphicon-info-sign'></span>";
-        $output .= " <strong>" . htmlentities($_SESSION["message"]) . "</strong>";
-        $output .= "</div>";
-        // clear message after use
-        $_SESSION["message"] = NULL;
-        return $output;
-    }
-}
-
-?>
-<?php
-function errors()
-{
-    if (isset($_SESSION["errors"])) {
-        $errors = "<div class='alert alert-danger alert-dismissible' role='alert'>";
-        $errors .= "<button type='button' class='close' data-dismiss='alert'>";
-        $errors .= "<span aria-hidden='true'>&times;</span>";
-        $errors .= "<span class='sr-only'></span>";
-        $errors .= "</button>";
-        $errors .= "<span class='glyphicon glyphicon-remove-circle'></span>";
-        $errors .= " <strong>" . htmlentities($_SESSION["errors"]) . "</strong>";
-        $errors .= "</div>";
-        // clear error after use
-        $_SESSION["errors"] = NULL;
-        return $errors;
-    }
-}
-
-?>
-<?php
-function Emessage()
-{
-    if (isset($_SESSION["Emessage"])) {
-        $output = "<div class='alert alert-danger alert-dismissible' role='alert'>";
-        $output .= "<button type='button' class='close' data-dismiss='alert'>";
-        $output .= "<span aria-hidden='true'>&times;</span>";
-        $output .= "<span class='sr-only'></span>";
-        $output .= "</button>";
-        $output .= "<span class='glyphicon glyphicon-info-sign'></span>";
-        $output .= " <strong>" . htmlentities($_SESSION["Emessage"]) . "</strong>";
-        $output .= "</div>";
-        // clear message after use
-        $_SESSION["Emessage"] = NULL;
-        return $output;
     }
 }
 
