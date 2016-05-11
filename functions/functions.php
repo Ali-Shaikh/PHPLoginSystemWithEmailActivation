@@ -71,9 +71,54 @@ function validation_errors($error_message)
     $errors .= " <strong> Warning! </strong>";
     $errors .= "$error_message";
     $errors .= "</div>";
+
+//    $message = <<<HereDoc
+//                    <div class="alert alert-warning alert-dismissible" role="alert">
+//                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+//                    <strong>Warning!</strong> $error </div>
+//HereDoc;
+
     return $errors;
 }
+
 ?>
+
+<?php
+function email_exists($email){
+    
+    $sql_query = "SELECT id FROM users WHERE email = '$email'";
+    
+    $result = query($sql_query);
+
+    if (row_count($result) == 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+?>
+
+<?php
+function username_exists($username){
+
+    $sql_query = "SELECT id FROM users WHERE username = '$username'";
+
+    $result = query($sql_query);
+
+    if (row_count($result) == 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
+?>
+
+<?php
+?>
+
+<?php
+?>
+
 <?php
 /*******************************Validation Functions***************************/
 ?>
@@ -82,7 +127,6 @@ function validation_errors($error_message)
 
 function validate_user_registration()
 {
-
     $errors = [];
 
     $min = 3;
@@ -118,6 +162,11 @@ function validate_user_registration()
             $errors[] = "Your Last Name cannot be greater than {$max} characters";
         }
 
+        if (email_exists($email)) {
+
+            $errors[] = "Sorry! The Email address is already registered";
+        }
+
         if (strlen($email) < $min) {
 
             $errors[] = "Your Email address cannot be less than {$min} characters";
@@ -126,6 +175,11 @@ function validate_user_registration()
         if (strlen($email) > $max) {
 
             $errors[] = "Your Email address cannot be greater than {$max} characters";
+        }
+
+        if (username_exists($username)) {
+
+            $errors[] = "Sorry! The Username is already registered";
         }
 
         if (strlen($username) < $min) {
@@ -138,7 +192,7 @@ function validate_user_registration()
             $errors[] = "Your Username cannot be greater than {$max} characters";
         }
 
-        if($password !== $confirm_password) {
+        if ($password !== $confirm_password) {
 
             $errors[] = "Your password fields do not match";
 
