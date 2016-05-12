@@ -84,10 +84,11 @@ function validation_errors($error_message)
 ?>
 
 <?php
-function email_exists($email){
-    
+function email_exists($email)
+{
+
     $sql_query = "SELECT id FROM users WHERE email = '$email'";
-    
+
     $result = query($sql_query);
 
     if (row_count($result) == 1) {
@@ -96,10 +97,12 @@ function email_exists($email){
         return false;
     }
 }
+
 ?>
 
 <?php
-function username_exists($username){
+function username_exists($username)
+{
 
     $sql_query = "SELECT id FROM users WHERE username = '$username'";
 
@@ -111,6 +114,7 @@ function username_exists($username){
         return false;
     }
 }
+
 ?>
 
 <?php
@@ -203,6 +207,12 @@ function validate_user_registration()
 
                 echo validation_errors($error);
             }
+        } else {
+
+            if (register_user($first_name, $last_name, $username, $email, $password)) {
+
+                echo "User Registered";
+            }
         }
     }
 }
@@ -210,7 +220,8 @@ function validate_user_registration()
 ?>
 
 <?php
-function register_user($first_name, $last_name, $username, $email, $password) {
+function register_user($first_name, $last_name, $username, $email, $password)
+{
 
     $first_name = escape($first_name);
     $last_name = escape($last_name);
@@ -218,20 +229,27 @@ function register_user($first_name, $last_name, $username, $email, $password) {
     $email = escape($email);
     $password = escape($password);
 
-    if(email_exists($email)){
+    if (email_exists($email)) {
         return false;
-    } elseif (username_exists($username)){
+    } elseif (username_exists($username)) {
         return falase;
     } else {
 
         $password = md5($password);
 
-        $validation = md5($username + microtime());
+        $validation_code = md5($username + microtime());
 
-        $sql_query = "INSERT INTO users(first_name, last_name, username, email, password, validation_code, 0)";
+        $sql_query = "INSERT INTO users(first_name, last_name, username, email, password, validation_code, active)";
+        $sql_query .= " VALUES('$first_name','$last_name', '$username', '$email', '$password', '$validation_code', 0)";
+
+        $result = query($sql_query);
+        confirm($result);
+
+        return true;
     }
 
 }
+
 ?>
 <?php ?>
 <?php ?>
