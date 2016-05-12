@@ -210,7 +210,11 @@ function validate_user_registration()
         } else {
 
             if (register_user($first_name, $last_name, $username, $email, $password)) {
+                
+                set_message("<p class='bg-success text-centre'>Please check your inbox or spam folder for the activation email</p>");
 
+                redirect("index.php");
+                
                 echo "User Registered";
             }
         }
