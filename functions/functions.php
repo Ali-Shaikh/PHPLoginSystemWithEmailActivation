@@ -172,10 +172,10 @@ function validate_user_registration()
             $errors[] = "Your Email address cannot be less than {$min} characters";
         }
 
-        if (strlen($email) > $max) {
-
-            $errors[] = "Your Email address cannot be greater than {$max} characters";
-        }
+//        if (strlen($email) > $max) {
+//
+//            $errors[] = "Your Email address cannot be greater than {$max} characters";
+//        }
 
         if (username_exists($username)) {
 
@@ -208,3 +208,32 @@ function validate_user_registration()
 }
 
 ?>
+
+<?php
+function register_user($first_name, $last_name, $username, $email, $password) {
+
+    $first_name = escape($first_name);
+    $last_name = escape($last_name);
+    $username = escape($username);
+    $email = escape($email);
+    $password = escape($password);
+
+    if(email_exists($email)){
+        return false;
+    } elseif (username_exists($username)){
+        return falase;
+    } else {
+
+        $password = md5($password);
+
+        $validation = md5($username + microtime());
+
+        $sql_query = "INSERT INTO users(first_name, last_name, username, email, password, validation_code, 0)";
+    }
+
+}
+?>
+<?php ?>
+<?php ?>
+<?php ?>
+<?php ?>
